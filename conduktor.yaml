@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: conduktor
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: conduktor
+  template:
+    metadata:
+      labels:
+        app: conduktor
+    spec:
+      containers:
+        - name: conduktor
+          image: conduktor/conduktor-platform:latest
+          ports:
+            - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: conduktor
+spec:
+  type: NodePort
+  ports:
+    - port: 8080
+      targetPort: 8080
+      nodePort: 30080
+  selector:
+    app: conduktor
