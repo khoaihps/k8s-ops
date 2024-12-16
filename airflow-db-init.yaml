@@ -1,26 +1,18 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: batch/v1
+kind: Job
 metadata:
-  name: airflow
+  name: airflow-db-init
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: airflow
   template:
-    metadata:
-      labels:
-        app: airflow
     spec:
       containers:
-        - name: airflow
+        - name: airflow-db-init
           image: apache/airflow:2.6.0
           command: ["airflow"]
-          args: ["webserver"]
+          args: ["db", "init"]
           env:
             - name: AIRFLOW__CORE__EXECUTOR
               value: KubernetesExecutor
             - name: AIRFLOW__DATABASE__SQL_ALCHEMY_CONN
               value: "postgresql+psycopg2://postgres:postgres@postgresql:5432/airflow"
-          ports:
-            - containerPort: 8080
+      restartPolicy: Never
