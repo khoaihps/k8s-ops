@@ -12,6 +12,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: kafka
+  namespace: default
 spec:
   replicas: 1
   selector:
@@ -25,5 +26,15 @@ spec:
       containers:
         - name: kafka
           image: bitnami/kafka:latest
+          env:
+            - name: KAFKA_CFG_ZOOKEEPER_CONNECT
+              value: "zookeeper:2181"
+            - name: KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP
+              value: "PLAINTEXT:PLAINTEXT"
+            - name: KAFKA_CFG_LISTENERS
+              value: "PLAINTEXT://:9092"
+            - name: KAFKA_CFG_ADVERTISED_LISTENERS
+              value: "PLAINTEXT://kafka:9092"
+
           ports:
             - containerPort: 9092
