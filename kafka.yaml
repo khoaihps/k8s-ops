@@ -32,10 +32,10 @@ spec:
               value: PLAINTEXT://kafka:9092
           resources:
             requests:
-              memory: "2Gi"
+              memory: "1Gi"
               cpu: "500m"
             limits:
-              memory: "4Gi"
+              memory: "2Gi"
               cpu: "1"
 ---
 apiVersion: v1
