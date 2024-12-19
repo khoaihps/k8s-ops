@@ -24,6 +24,12 @@ spec:
             requests:
               memory: "256Mi"
               cpu: "250m"
+          env:
+            - name: OPENAI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: openai-api-key
+                  key: OPENAI_API_KEY
       restartPolicy: Always
 ---
 apiVersion: v1
